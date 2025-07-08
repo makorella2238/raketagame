@@ -786,13 +786,13 @@
 
 
     window.addEventListener("resize", () => {
-  WIDTH = 350;
-  HEIGHT = 350;
-  camera.aspect = WIDTH / HEIGHT;
-  camera.updateProjectionMatrix();
-  renderer.setSize(WIDTH, HEIGHT);
-  renderer.setPixelRatio(window.devicePixelRatio);
-});
+      WIDTH = 350;
+      HEIGHT = 350;
+      camera.aspect = WIDTH / HEIGHT;
+      camera.updateProjectionMatrix();
+      renderer.setSize(WIDTH, HEIGHT);
+      renderer.setPixelRatio(window.devicePixelRatio);
+    });
 
   }
 
@@ -893,19 +893,38 @@
   }
 };
 
-// Простая анимация SVG-ракеты
+  // Простая анимация SVG-ракеты
   function animateMobileRocket() {
-    const group = document.getElementById('mobile-rocket-group');
-    let angle = 0;
-    let t = 0;
-    function anim() {
-      angle += 2;
-      t += 0.05;
-      group.setAttribute('transform', `rotate(${angle} 30 60) translate(0 ${Math.sin(t)*6})`);
-      requestAnimationFrame(anim);
-    }
-    anim();
+  const group = document.getElementById('mobile-rocket-group');
+  let t = 0;
+
+  let offsetY = 0;
+  offsetY -= 0.1;
+  group.setAttribute(
+    'transform',
+    `translate(0 ${translateY + offsetY}) rotate(${rotateZ} 30 60)`
+  );
+
+  function anim() {
+    t += 0.05;
+
+    // Колебание по вертикали (вверх-вниз)
+    const translateY = Math.sin(t) * 4;
+
+    // Легкое покачивание вокруг центра (наклон, создающий ощущение объёма)
+    const rotateZ = Math.sin(t * 1.5) * 5; // ±5 градусов
+
+    // Анимация применяется как 1 строка трансформаций
+    group.setAttribute(
+      'transform',
+      `translate(0 ${translateY}) rotate(${rotateZ} 30 60)`
+    );
+
+    requestAnimationFrame(anim);
   }
+
+  anim();
+}
 
   main();
 
