@@ -530,16 +530,28 @@
   box-shadow: 0 0 30px rgba(255, 165, 0, 0.9);
 }
 
-#canvas {
+/* #canvas {
   position: absolute;
   top: 50%;
   left: 50%;
   width: 200px;
   height: 200px;
-  transform: translate(-87%, -115%); /* ← ключевой момент */
+  transform: translate(-87%, -115%); /
   pointer-events: none;
   z-index: 1;
+} */
+
+#canvas {
+  position: relative;
+  width: 100%;
+  max-width: 350px;
+  height: 350px;
+  margin: 0 auto;
+  pointer-events: none;
+  z-index: 1;
+  transform: none !important;
 }
+
 
 
 .fire-wrapper {
@@ -737,8 +749,9 @@
 
   // --- ДОБАВЛЯЕМ РАКЕТУ В СЦЕНУ ВСЕГДА ---
   function createScene() {
-    HEIGHT = 350;
-    WIDTH = 350;
+    const container = document.getElementById("canvas");
+    WIDTH = container.clientWidth;
+    HEIGHT = container.clientHeight;
 
     scene = new THREE.Scene();
     scene.fog = new THREE.Fog(0x5d0361, 10, 1500);
@@ -752,7 +765,6 @@
     renderer.shadowMap.enabled = true;
 
 
-    const container = document.getElementById("canvas");
     container.innerHTML = '';
     container.appendChild(renderer.domElement);
 
@@ -767,15 +779,15 @@
       scene.add(rocket);
     });
 
-      window.addEventListener("resize", () => {
-        WIDTH = 350;
-        HEIGHT = 350;
-        camera.aspect = WIDTH / HEIGHT;
-        camera.updateProjectionMatrix();
-        renderer.setSize(WIDTH, HEIGHT);
-        renderer.setPixelRatio(window.devicePixelRatio);
-      });
-
+    window.addEventListener("resize", () => {
+      const container = document.getElementById("canvas");
+      WIDTH = container.clientWidth;
+      HEIGHT = container.clientHeight;
+      camera.aspect = WIDTH / HEIGHT;
+      camera.updateProjectionMatrix();
+      renderer.setSize(WIDTH, HEIGHT);
+      renderer.setPixelRatio(window.devicePixelRatio);
+    });
   }
 
   function createLights() {
