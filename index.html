@@ -906,7 +906,9 @@ function showStub() {
     document.getElementById('rocket-mobile').style.display = 'block';
     animateMobileRocketStop();
     // Скрыть частицы на мобильном в паузу
-    document.querySelectorAll('#rocket-mobile .rain, #rocket-mobile .drop').forEach(e => e.style.display = 'none');
+    document.querySelectorAll('#rocket-mobile .rain, #rocket-mobile .drop').forEach(e => {
+      e.style.display = 'none';
+    });
   } else {
     document.getElementById('rocket-stub').style.display = 'block';
     document.getElementById('rocket-3d-wrapper').style.display = 'none';
@@ -919,7 +921,9 @@ function showRocket3D() {
     document.getElementById('rocket-mobile').style.display = 'block';
     animateMobileRocketStart();
     // Показать частицы на мобильном во время игры
-    document.querySelectorAll('#rocket-mobile .rain, #rocket-mobile .drop').forEach(e => e.style.display = '');
+    document.querySelectorAll('#rocket-mobile .rain, #rocket-mobile .drop').forEach(e => {
+      e.style.display = 'block';
+    });
   } else {
     document.getElementById('rocket-stub').style.display = 'none';
     document.getElementById('rocket-3d-wrapper').style.display = 'block';
