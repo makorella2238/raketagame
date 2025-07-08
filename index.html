@@ -810,6 +810,7 @@
     let scene, camera, renderer, rocket, WIDTH, HEIGHT;
     
     // Добавьте переменную для отслеживания ручного запуска
+    let mobileRocketAnimFrame = null;
     let betPlaced = false;
     let sceneInitialized = false;
     let showStubRocket = false;
@@ -945,44 +946,79 @@
 //   requestAnimationFrame(loop);
 // }
 
-  const main = () => {
+  // ...existing code...
+
+function animateMobileRocketStart() {
+  const group = document.getElementById('mobile-rocket-group');
+  const fire = document.getElementById('mobile-rocket-fire');
+  let t = 0;
+  function anim() {
+    t += 0.045;
+    const rotY = Math.sin(t) * 18;
+    const scaleX = 1 - Math.abs(Math.sin(t)) * 0.32;
+    const flyY = Math.sin(t * 1.2) * 10;
+    const fireScale = 1 + Math.abs(Math.sin(t * 2.2)) * 0.33;
+    fire.setAttribute('transform', `scale(1,${fireScale.toFixed(2)})`);
+    group.setAttribute(
+      'transform',
+      `translate(0 ${flyY}) rotate(${rotY} 30 60) scale(${scaleX.toFixed(2)},1)`
+    );
+    mobileRocketAnimFrame = requestAnimationFrame(anim);
+  }
+  anim();
+}
+
+function animateMobileRocketStop() {
+  if (mobileRocketAnimFrame) {
+    cancelAnimationFrame(mobileRocketAnimFrame);
+    mobileRocketAnimFrame = null;
+  }
+  // Сбросить трансформации (статичная ракета)
+  const group = document.getElementById('mobile-rocket-group');
+  const fire = document.getElementById('mobile-rocket-fire');
+  if (group) group.setAttribute('transform', '');
+  if (fire) fire.setAttribute('transform', '');
+}
+
+// ...existing code...
+
+function showStub() {
   if (isMobile()) {
-    // Показываем SVG-ракету, скрываем 3D
+    document.getElementById('rocket-mobile').style.display = 'block';
+    animateMobileRocketStop();
+  } else {
+    document.getElementById('rocket-stub').style.display = 'block';
+    document.getElementById('rocket-3d-wrapper').style.display = 'none';
+    document.querySelectorAll('.fire-wrapper, .rain, .drop').forEach(e => e.style.display = 'none');
+  }
+}
+
+function showRocket3D() {
+  if (isMobile()) {
+    document.getElementById('rocket-mobile').style.display = 'block';
+    animateMobileRocketStart();
+  } else {
+    document.getElementById('rocket-stub').style.display = 'none';
+    document.getElementById('rocket-3d-wrapper').style.display = 'block';
+    document.querySelectorAll('.fire-wrapper, .rain, .drop').forEach(e => e.style.display = '');
+  }
+}
+
+// ...main() теперь не запускает анимацию сразу...
+const main = () => {
+  if (isMobile()) {
     document.getElementById('rocket-3d-wrapper').style.display = 'none';
     document.getElementById('rocket-mobile').style.display = 'block';
-    animateMobileRocket();
+    animateMobileRocketStop(); // Показываем статичную SVG до старта игры
   } else {
-    // Обычная 3D-ракета
     createScene();
     createLights();
     loop();
   }
 };
 
- function animateMobileRocket() {
-  const group = document.getElementById('mobile-rocket-group');
-  const fire = document.getElementById('mobile-rocket-fire');
-  let t = 0;
-  function anim() {
-    t += 0.045;
-    // "3D-вращение" вокруг вертикальной оси (scaleX), наклон (rotate), и полёт вверх-вниз
-    const rotY = Math.sin(t) * 18; // угол наклона
-    const scaleX = 1 - Math.abs(Math.sin(t)) * 0.32; // псевдо-3D
-    const flyY = Math.sin(t * 1.2) * 10;
-    // Пламя "дышит"
-    const fireScale = 1 + Math.abs(Math.sin(t * 2.2)) * 0.33;
-    fire.setAttribute('transform', `scale(1,${fireScale.toFixed(2)})`);
-    // Трансформация всей ракеты
-    group.setAttribute(
-      'transform',
-      `translate(0 ${flyY}) rotate(${rotY} 30 60) scale(${scaleX.toFixed(2)},1)`
-    );
-    requestAnimationFrame(anim);
-  }
-  anim();
-}
+main();
 
-  main();
 
 
     // Игровые переменные
