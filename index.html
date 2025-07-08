@@ -699,41 +699,52 @@
         </div>
 
        <div id="rocket-mobile" style="display: none; width: 120px; height: 120px; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index:2;">
-        <svg viewBox="0 0 60 120" width="100%" height="100%">
+        <svg viewBox="0 0 80 170" width="100%" height="100%">
           <g id="mobile-rocket-group">
             <!-- Пламя -->
             <g id="mobile-rocket-fire">
-              <ellipse cx="30" cy="112" rx="7" ry="14" fill="url(#fireGrad)" opacity="0.85"/>
-              <ellipse cx="30" cy="122" rx="3" ry="7" fill="orange" opacity="0.7"/>
+              <ellipse cx="40" cy="158" rx="13" ry="22" fill="url(#fireGrad)" opacity="0.92"/>
+              <ellipse cx="40" cy="170" rx="6" ry="12" fill="orange" opacity="0.7"/>
+              <ellipse cx="40" cy="162" rx="7" ry="16" fill="url(#fireGrad2)" opacity="0.7"/>
             </g>
             <!-- Крылья -->
-            <polygon points="15,80 2,110 30,95" fill="#444" stroke="#222" stroke-width="1"/>
-            <polygon points="45,80 58,110 30,95" fill="#444" stroke="#222" stroke-width="1"/>
+            <polygon points="18,110 2,160 40,135" fill="#444" stroke="#222" stroke-width="2"/>
+            <polygon points="62,110 78,160 40,135" fill="#444" stroke="#222" stroke-width="2"/>
             <!-- Корпус -->
-            <rect x="18" y="25" width="24" height="70" rx="12" fill="url(#bodyGrad)" stroke="#aaa" stroke-width="2"/>
+            <rect x="22" y="35" width="36" height="100" rx="18" fill="url(#bodyGrad)" stroke="#aaa" stroke-width="2"/>
             <!-- Верх -->
-            <ellipse cx="30" cy="25" rx="12" ry="10" fill="url(#noseGrad)" stroke="#888" stroke-width="2"/>
+            <ellipse cx="40" cy="35" rx="18" ry="16" fill="url(#noseGrad)" stroke="#888" stroke-width="2"/>
+            <polygon points="40,5 22,35 58,35" fill="url(#noseGrad2)" stroke="#888" stroke-width="2"/>
             <!-- Иллюминатор -->
-            <ellipse cx="30" cy="55" rx="6" ry="7" fill="#b3e0ff" stroke="#5ec6ff" stroke-width="2"/>
-            <ellipse cx="28" cy="53" rx="1.5" ry="2" fill="#fff" opacity="0.7"/>
+            <ellipse cx="40" cy="70" rx="9" ry="10" fill="#b3e0ff" stroke="#5ec6ff" stroke-width="2"/>
+            <ellipse cx="37" cy="67" rx="2.5" ry="3" fill="#fff" opacity="0.7"/>
             <!-- Блик -->
-            <rect x="34" y="35" width="3" height="30" rx="2" fill="#fff" opacity="0.18"/>
+            <rect x="50" y="50" width="5" height="50" rx="2.5" fill="#fff" opacity="0.13"/>
             <!-- Тень -->
-            <ellipse cx="30" cy="115" rx="13" ry="5" fill="#000" opacity="0.13"/>
+            <ellipse cx="40" cy="162" rx="20" ry="7" fill="#000" opacity="0.13"/>
             <!-- Градиенты -->
             <defs>
-              <linearGradient id="bodyGrad" x1="18" y1="25" x2="42" y2="95" gradientUnits="userSpaceOnUse">
+              <linearGradient id="bodyGrad" x1="22" y1="35" x2="58" y2="135" gradientUnits="userSpaceOnUse">
                 <stop offset="0%" stop-color="#eee"/>
                 <stop offset="60%" stop-color="#bbb"/>
                 <stop offset="100%" stop-color="#888"/>
               </linearGradient>
-              <linearGradient id="noseGrad" x1="30" y1="15" x2="30" y2="35" gradientUnits="userSpaceOnUse">
+              <linearGradient id="noseGrad" x1="40" y1="15" x2="40" y2="51" gradientUnits="userSpaceOnUse">
                 <stop offset="0%" stop-color="#fff"/>
                 <stop offset="100%" stop-color="#888"/>
               </linearGradient>
-              <radialGradient id="fireGrad" cx="30" cy="115" r="13" gradientUnits="userSpaceOnUse">
+              <linearGradient id="noseGrad2" x1="40" y1="5" x2="40" y2="35" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#fff"/>
+                <stop offset="100%" stop-color="#bbb"/>
+              </linearGradient>
+              <radialGradient id="fireGrad" cx="40" cy="158" r="18" gradientUnits="userSpaceOnUse">
                 <stop offset="0%" stop-color="#fff700"/>
                 <stop offset="60%" stop-color="#ff8c00"/>
+                <stop offset="100%" stop-color="#ff4500"/>
+              </radialGradient>
+              <radialGradient id="fireGrad2" cx="40" cy="162" r="10" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#fff"/>
+                <stop offset="80%" stop-color="#ffb300"/>
                 <stop offset="100%" stop-color="#ff4500"/>
               </radialGradient>
             </defs>
