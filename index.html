@@ -1020,19 +1020,6 @@ function animateMobileRocketStop() {
   if (fire) fire.setAttribute('transform', '');
 }
 
-// ...existing code...
-
-function showStub() {
-  if (isMobile()) {
-    document.getElementById('rocket-mobile').style.display = 'block';
-    animateMobileRocketStop();
-  } else {
-    document.getElementById('rocket-stub').style.display = 'block';
-    document.getElementById('rocket-3d-wrapper').style.display = 'none';
-    document.querySelectorAll('.fire-wrapper, .rain, .drop').forEach(e => e.style.display = 'none');
-  }
-}
-
 function showRocket3D() {
   if (isMobile()) {
     document.getElementById('rocket-mobile').style.display = 'block';
