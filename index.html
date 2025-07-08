@@ -218,7 +218,6 @@
       z-index: 1;
       animation: fire 0.5s infinite alternate;
       box-shadow: 0 0 20px #ff4500;
-      animation: flare-pulse 0.5s infinite alternate;
     }
     
     /* Множитель */
@@ -695,28 +694,48 @@
         <div id="canvas"></div>
         </div>
 
-        <!-- SVG-ракета для мобильных -->
-          <div id="rocket-mobile" style="display: none; width: 120px; height: 120px; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index:2;">
-            <svg viewBox="0 0 60 120" width="100%" height="100%">
-              <g id="mobile-rocket-group">
-                <!-- Тело ракеты -->
-                <path d="M30 5 C35 20, 35 100, 30 115 C25 100, 25 20, 30 5" fill="#ccc" stroke="#888" stroke-width="2"/>
-
-                <!-- Иллюминатор -->
-                <circle cx="30" cy="45" r="6" fill="#00bfff" stroke="#0077aa" stroke-width="2"/>
-
-                <!-- Левое крыло -->
-                <path d="M25 80 L5 100 L25 90 Z" fill="#444"/>
-
-                <!-- Правое крыло -->
-                <path d="M35 80 L55 100 L35 90 Z" fill="#444"/>
-
-                <!-- Пламя -->
-                <path d="M30 115 C27 120, 33 120, 30 115" fill="orange" opacity="0.8"/>
-                <path d="M30 115 C26 123, 34 123, 30 115" fill="red" opacity="0.6"/>
-              </g>
-            </svg>
-          </div>
+       <div id="rocket-mobile" style="display: none; width: 120px; height: 120px; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index:2;">
+        <svg viewBox="0 0 60 120" width="100%" height="100%">
+          <g id="mobile-rocket-group">
+            <!-- Пламя -->
+            <g id="mobile-rocket-fire">
+              <ellipse cx="30" cy="112" rx="7" ry="14" fill="url(#fireGrad)" opacity="0.85"/>
+              <ellipse cx="30" cy="122" rx="3" ry="7" fill="orange" opacity="0.7"/>
+            </g>
+            <!-- Крылья -->
+            <polygon points="15,80 2,110 30,95" fill="#444" stroke="#222" stroke-width="1"/>
+            <polygon points="45,80 58,110 30,95" fill="#444" stroke="#222" stroke-width="1"/>
+            <!-- Корпус -->
+            <rect x="18" y="25" width="24" height="70" rx="12" fill="url(#bodyGrad)" stroke="#aaa" stroke-width="2"/>
+            <!-- Верх -->
+            <ellipse cx="30" cy="25" rx="12" ry="10" fill="url(#noseGrad)" stroke="#888" stroke-width="2"/>
+            <!-- Иллюминатор -->
+            <ellipse cx="30" cy="55" rx="6" ry="7" fill="#b3e0ff" stroke="#5ec6ff" stroke-width="2"/>
+            <ellipse cx="28" cy="53" rx="1.5" ry="2" fill="#fff" opacity="0.7"/>
+            <!-- Блик -->
+            <rect x="34" y="35" width="3" height="30" rx="2" fill="#fff" opacity="0.18"/>
+            <!-- Тень -->
+            <ellipse cx="30" cy="115" rx="13" ry="5" fill="#000" opacity="0.13"/>
+            <!-- Градиенты -->
+            <defs>
+              <linearGradient id="bodyGrad" x1="18" y1="25" x2="42" y2="95" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#eee"/>
+                <stop offset="60%" stop-color="#bbb"/>
+                <stop offset="100%" stop-color="#888"/>
+              </linearGradient>
+              <linearGradient id="noseGrad" x1="30" y1="15" x2="30" y2="35" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#fff"/>
+                <stop offset="100%" stop-color="#888"/>
+              </linearGradient>
+              <radialGradient id="fireGrad" cx="30" cy="115" r="13" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#fff700"/>
+                <stop offset="60%" stop-color="#ff8c00"/>
+                <stop offset="100%" stop-color="#ff4500"/>
+              </radialGradient>
+            </defs>
+          </g>
+        </svg>
+      </div>
 
       </div>
     </div>
@@ -940,14 +959,24 @@
   }
 };
 
-  function animateMobileRocket() {
+ function animateMobileRocket() {
   const group = document.getElementById('mobile-rocket-group');
+  const fire = document.getElementById('mobile-rocket-fire');
   let t = 0;
   function anim() {
-    t += 0.05;
-    const bobbing = Math.sin(t) * 4;
-    const tilting = Math.sin(t * 1.5) * 5;
-    group.setAttribute('transform', `translate(0 ${bobbing}) rotate(${tilting} 30 60)`);
+    t += 0.045;
+    // "3D-вращение" вокруг вертикальной оси (scaleX), наклон (rotate), и полёт вверх-вниз
+    const rotY = Math.sin(t) * 18; // угол наклона
+    const scaleX = 1 - Math.abs(Math.sin(t)) * 0.32; // псевдо-3D
+    const flyY = Math.sin(t * 1.2) * 10;
+    // Пламя "дышит"
+    const fireScale = 1 + Math.abs(Math.sin(t * 2.2)) * 0.33;
+    fire.setAttribute('transform', `scale(1,${fireScale.toFixed(2)})`);
+    // Трансформация всей ракеты
+    group.setAttribute(
+      'transform',
+      `translate(0 ${flyY}) rotate(${rotY} 30 60) scale(${scaleX.toFixed(2)},1)`
+    );
     requestAnimationFrame(anim);
   }
   anim();
