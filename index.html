@@ -737,48 +737,38 @@
 
   // --- ДОБАВЛЯЕМ РАКЕТУ В СЦЕНУ ВСЕГДА ---
   function createScene() {
-  HEIGHT = 350;
-  WIDTH = 350;
+    HEIGHT = 350;
+    WIDTH = 350;
 
-  if (!isWebGLAvailable()) {
-    // Если WebGL не поддерживается, показываем только SVG-заглушку
-    document.getElementById('rocket-stub').style.display = 'block';
-    document.getElementById('rocket-3d-wrapper').style.display = 'none';
-    return;
+    scene = new THREE.Scene();
+    scene.fog = new THREE.Fog(0x5d0361, 10, 1500);
+
+    camera = new THREE.PerspectiveCamera(60, WIDTH / HEIGHT, 1, 10000);
+    camera.position.set(0, -10, 500);
+
+    renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(WIDTH, HEIGHT);
+    renderer.shadowMap.enabled = true;
+
+    const container = document.getElementById("canvas");
+    container.innerHTML = '';
+    container.appendChild(renderer.domElement);
+
+    const loader = new THREE.GLTFLoader();
+    loader.load("https://stivs.dev/assets/rocket/rocket.gltf", (gltf) => {
+      if (rocket) {
+        scene.remove(rocket);
+      }
+
+      rocket = gltf.scene;
+      rocket.position.y = 50;
+      scene.add(rocket);
+    });
+
+
+
+    window.addEventListener("resize", () => {});
   }
-
-  scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(0x5d0361, 10, 1500);
-
-  camera = new THREE.PerspectiveCamera(60, WIDTH / HEIGHT, 1, 10000);
-  camera.position.set(0, -10, 500);
-
-  renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-  renderer.setSize(WIDTH, HEIGHT);
-  renderer.shadowMap.enabled = true;
-
-  const container = document.getElementById("canvas");
-  container.innerHTML = '';
-  container.appendChild(renderer.domElement);
-
-  const loader = new THREE.GLTFLoader();
-  loader.load(
-  './rocket/rocket.gltf',
-  (gltf) => {
-    if (rocket) scene.remove(rocket);
-    rocket = gltf.scene;
-    rocket.position.y = 50;
-    scene.add(rocket);
-    document.getElementById('rocket-stub').style.display = 'none';
-    document.getElementById('rocket-3d-wrapper').style.display = 'block';
-  },
-  undefined,
-  (error) => {
-    console.error("Ошибка загрузки GLTF модели:", error);
-    showStub();
-  }
-);
-}
 
   function createLights() {
     const ambientLight = new THREE.HemisphereLight(0x404040, 0x404040, 1);
@@ -1051,7 +1041,7 @@ function startGame() {
       }
     }
     
-    function isWebGLAvailable() {
+    unction isWebGLAvailable() {
   try {
     const canvas = document.createElement('canvas');
     return !!window.WebGLRenderingContext && (
