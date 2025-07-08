@@ -144,7 +144,7 @@
       width: 60px;
       height: 180px;
       transform: translateY(30px);
-      animation: float 3s ease-in-out infinite;
+      animation: rocket-fly 2.5s ease-in-out infinite;
     }
     
     .rocket-body {
@@ -156,8 +156,10 @@
       top: 0;
       left: 0;
       z-index: 2;
+        box-shadow: 0 0 10px rgba(255,255,255,0.3);
     }
     
+    /* Верх ракеты */
     .rocket-top {
       position: absolute;
       width: 60px;
@@ -166,8 +168,24 @@
       border-radius: 30px 30px 0 0;
       top: 0;
       left: 0;
+      z-index: 3;
     }
-    
+
+    /* Окно */
+    .rocket-window {
+      position: absolute;
+      top: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 18px;
+      height: 18px;
+      background: radial-gradient(circle at 30% 30%, #6cf, #09f);
+      border-radius: 50%;
+      border: 2px solid #007acc;
+      box-shadow: 0 0 8px rgba(0, 136, 255, 0.5);
+      z-index: 4;
+    }
+
     .rocket-fin-left, .rocket-fin-right {
       position: absolute;
       width: 20px;
@@ -200,6 +218,7 @@
       z-index: 1;
       animation: fire 0.5s infinite alternate;
       box-shadow: 0 0 20px #ff4500;
+      animation: flare-pulse 0.5s infinite alternate;
     }
     
     /* Множитель */
@@ -331,6 +350,25 @@
         background-position: 200% center;
       }
     }
+
+    /* Полёт ракеты */
+@keyframes rocket-fly {
+  0% {
+    transform: translateY(10px) rotate(-0.5deg);
+  }
+  25% {
+    transform: translateY(-4px) rotate(0.5deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(-1deg);
+  }
+  75% {
+    transform: translateY(-4px) rotate(1deg);
+  }
+  100% {
+    transform: translateY(10px) rotate(-0.5deg);
+  }
+}
     
     @keyframes vibration {
       0%, 100% { transform: translateY(30px); }
