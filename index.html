@@ -1020,17 +1020,6 @@ function animateMobileRocketStop() {
   if (fire) fire.setAttribute('transform', '');
 }
 
-function showRocket3D() {
-  if (isMobile()) {
-    document.getElementById('rocket-mobile').style.display = 'block';
-    animateMobileRocketStart();
-  } else {
-    document.getElementById('rocket-stub').style.display = 'none';
-    document.getElementById('rocket-3d-wrapper').style.display = 'block';
-    document.querySelectorAll('.fire-wrapper, .rain, .drop').forEach(e => e.style.display = '');
-  }
-}
-
 // ...main() теперь не запускает анимацию сразу...
 const main = () => {
   if (isMobile()) {
