@@ -465,17 +465,13 @@
         flex-direction: column;
         gap: 20px;
         height: 700px;
-        margin-top: 100px;
+        margin-top: 80px;
         padding: 20px;
       }
-
-          .rocket {
-      position: relative;
-      width: 60px;
-      height: 150px;
-      transform: translateY(20px);
-      animation: float 3s ease-in-out infinite;
-    }
+      
+      .rocket-container {
+        height: 220px;
+      }
       
       .multiplier {
         font-size: 40px;
@@ -504,84 +500,6 @@
       }
     }
   
-
-    @media (max-width: 768px) {
-  .rocket-container {
-    height: 160px !important;
-    min-height: 120px;
-    max-height: 200px;
-    width: 100%;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    position: relative;
-  }
-  #rocket-3d-wrapper {
-    width: 100% !important;
-    height: 100% !important;
-    min-width: 100px;
-    max-width: 180px;
-    min-height: 100px;
-    max-height: 200px;
-    margin: 0 auto;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    position: relative;
-    left: 0;
-    top: 0;
-  }
-  #canvas {
-    width: 110px !important;
-    height: 110px !important;
-    min-width: 80px;
-    min-height: 80px;
-    max-width: 140px;
-    max-height: 140px;
-    left: 50% !important;
-    top: 50% !important;
-    transform: translate(-50%, -60%) !important;
-    position: absolute;
-    z-index: 2;
-    display: block !important;
-  }
-  .rocket {
-    width: 36px !important;
-    height: 100px !important;
-    margin: 0 auto;
-    display: block;
-    position: relative;
-    z-index: 3;
-  }
-  .fire-wrapper {
-    width: 18px !important;
-    height: 28px !important;
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    top: auto;
-    transform: translateX(-50%) rotate3d(1, 0, 0, 60deg);
-    z-index: 1;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    pointer-events: none;
-  }
-  .fire {
-    width: 100% !important;
-    height: 100% !important;
-    min-height: 14px;
-    max-height: 32px;
-    display: block;
-  }
-  .rocket-fire {
-    width: 14px !important;
-    height: 22px !important;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: -12px;
-  }
-}
 /* 🟧 Свечение для ИГРОКА */
 #player-stats {
   transition: box-shadow 0.3s ease;
@@ -1064,14 +982,13 @@ function startGame() {
     }, 3000);
   }
 
-  // --- ОЖИДАНИЕ СТАВКИ ---
- function waitForBet() {
+ // --- ОЖИДАНИЕ СТАВКИ ---
+function waitForBet() {
   waitingForBet = true;
   showStubRocket = true;
   multiplier = 0;
   currentBet = 0;
   multiplierEl.textContent = '?0';
-  gameStatus.textContent = 'Ждём ставку...';
   betBtn.style.display = 'block';
   takeBtn.style.display = 'none';
   betInput.value = '';
@@ -1084,6 +1001,19 @@ function startGame() {
   showStub();
 
   betPlaced = false; // сбросить флаг при ожидании ставки
+
+  // --- ТАЙМЕР ОЖИДАНИЯ ---
+  let secondsLeft = 5;
+  gameStatus.textContent = `Сделайте ставку (${secondsLeft} сек.)`;
+  const timerInterval = setInterval(() => {
+    secondsLeft--;
+    if (secondsLeft > 0) {
+      gameStatus.textContent = `Сделайте ставку (${secondsLeft} сек.)`;
+    } else {
+      clearInterval(timerInterval);
+      gameStatus.textContent = 'Ждём ставку...';
+    }
+  }, 1000);
 
   setTimeout(() => {
     waitingForBet = false;
