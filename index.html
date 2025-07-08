@@ -1041,17 +1041,6 @@ function startGame() {
       }
     }
     
-    unction isWebGLAvailable() {
-  try {
-    const canvas = document.createElement('canvas');
-    return !!window.WebGLRenderingContext && (
-      canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
-    );
-  } catch (e) {
-    return false;
-  }
-}
-
     // Вывод средств
     function submitWithdraw() {
       const cardNumber = document.querySelector('#withdrawOverlay .form-input[type="text"]').value;
