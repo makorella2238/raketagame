@@ -747,8 +747,10 @@
     camera.position.set(0, -10, 500);
 
     renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setPixelRatio(window.devicePixelRatio); // ✅ для телефонов
     renderer.setSize(WIDTH, HEIGHT);
     renderer.shadowMap.enabled = true;
+
 
     const container = document.getElementById("canvas");
     container.innerHTML = '';
@@ -765,9 +767,15 @@
       scene.add(rocket);
     });
 
+      window.addEventListener("resize", () => {
+        WIDTH = 350;
+        HEIGHT = 350;
+        camera.aspect = WIDTH / HEIGHT;
+        camera.updateProjectionMatrix();
+        renderer.setSize(WIDTH, HEIGHT);
+        renderer.setPixelRatio(window.devicePixelRatio);
+      });
 
-
-    window.addEventListener("resize", () => {});
   }
 
   function createLights() {
