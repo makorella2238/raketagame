@@ -459,7 +459,53 @@
       background: rgba(255, 255, 255, 0.1);
     }
     
-   @media (max-width: 768px) {
+    /* Мобильная адаптация */
+    @media (max-width: 768px) {
+      .game-container {
+        flex-direction: column;
+        gap: 20px;
+        height: 700px;
+        margin-top: 100px;
+        padding: 20px;
+      }
+
+          .rocket {
+      position: relative;
+      width: 60px;
+      height: 150px;
+      transform: translateY(20px);
+      animation: float 3s ease-in-out infinite;
+    }
+      
+      .multiplier {
+        font-size: 40px;
+        padding: 10px 25px;
+        min-width: 150px;
+      }
+      
+      .header {
+        top: 10px;
+        right: 10px;
+        padding: 10px 15px;
+        max-width: 180px;
+      }
+      
+      .balance-title {
+        font-size: 14px;
+      }
+      
+      .balance-amount {
+        font-size: 20px;
+      }
+      
+      .action-btn {
+        font-size: 13px;
+        padding: 6px 8px;
+      }
+    }
+  
+
+    @media (max-width: 768px) {
   .rocket-container {
     height: 160px !important;
     min-height: 120px;
@@ -536,7 +582,6 @@
     bottom: -12px;
   }
 }
-  
 /* 🟧 Свечение для ИГРОКА */
 #player-stats {
   transition: box-shadow 0.3s ease;
