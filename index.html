@@ -897,32 +897,20 @@
   function animateMobileRocket() {
   const group = document.getElementById('mobile-rocket-group');
   let t = 0;
-
-  let offsetY = 0;
-  offsetY -= 0.1;
-  group.setAttribute(
-    'transform',
-    `translate(0 ${translateY + offsetY}) rotate(${rotateZ} 30 60)`
-  );
-
   function anim() {
-    t += 0.05;
-
-    // Колебание по вертикали (вверх-вниз)
-    const translateY = Math.sin(t) * 4;
-
-    // Легкое покачивание вокруг центра (наклон, создающий ощущение объёма)
-    const rotateZ = Math.sin(t * 1.5) * 5; // ±5 градусов
-
-    // Анимация применяется как 1 строка трансформаций
+    t += 0.04;
+    // "Вращение" вокруг вертикальной оси (3D-эффект)
+    const rotY = Math.sin(t) * 35; // угол наклона влево-вправо
+    const scaleX = 1 - Math.abs(Math.sin(t)) * 0.45; // сжатие по X для псевдо-3D
+    // "Прыжок" вверх-вниз
+    const flyY = Math.sin(t * 1.2) * 10;
+    // Собираем трансформацию
     group.setAttribute(
       'transform',
-      `translate(0 ${translateY}) rotate(${rotateZ} 30 60)`
+      `translate(0 ${flyY}) rotate(${rotY} 30 60) scale(${scaleX.toFixed(2)},1)`
     );
-
     requestAnimationFrame(anim);
   }
-
   anim();
 }
 
