@@ -902,21 +902,31 @@
     scene.add(ambientLight, directionalLight, pointLight);
   }
 
-    // Показать заглушку, скрыть 3D-ракету и частицы
-  function showStub() {
+function showStub() {
+  if (isMobile()) {
+    document.getElementById('rocket-mobile').style.display = 'block';
+    animateMobileRocketStop();
+    // Скрыть частицы на мобильном в паузу
+    document.querySelectorAll('#rocket-mobile .rain, #rocket-mobile .drop').forEach(e => e.style.display = 'none');
+  } else {
     document.getElementById('rocket-stub').style.display = 'block';
     document.getElementById('rocket-3d-wrapper').style.display = 'none';
-    // Скрыть частицы и огонь
     document.querySelectorAll('.fire-wrapper, .rain, .drop').forEach(e => e.style.display = 'none');
   }
+}
 
-  
-  // Показать 3D-ракету и частицы, скрыть заглушку
-  function showRocket3D() {
+function showRocket3D() {
+  if (isMobile()) {
+    document.getElementById('rocket-mobile').style.display = 'block';
+    animateMobileRocketStart();
+    // Показать частицы на мобильном во время игры
+    document.querySelectorAll('#rocket-mobile .rain, #rocket-mobile .drop').forEach(e => e.style.display = '');
+  } else {
     document.getElementById('rocket-stub').style.display = 'none';
     document.getElementById('rocket-3d-wrapper').style.display = 'block';
     document.querySelectorAll('.fire-wrapper, .rain, .drop').forEach(e => e.style.display = '');
   }
+}
 
   function loop() {
   if (!renderer || !scene || !camera) return;
