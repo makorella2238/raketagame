@@ -657,19 +657,28 @@
         <div id="canvas"></div>
         </div>
 
-        <!-- ДОБАВЬТЕ SVG-ракету для мобильных -->
-        <div id="rocket-mobile" style="display: none; width: 120px; height: 120px; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index:2;">
-          <svg viewBox="0 0 60 120" width="100%" height="100%">
-            <g id="mobile-rocket-group">
-              <ellipse cx="30" cy="80" rx="18" ry="32" fill="#eee" stroke="#aaa" stroke-width="2"/>
-              <rect x="25" y="20" width="10" height="60" rx="5" fill="#ccc" stroke="#888" stroke-width="2"/>
-              <polygon points="30,5 40,30 20,30" fill="#888"/>
-              <polygon points="25,80 10,110 30,90" fill="#444"/>
-              <polygon points="35,80 50,110 30,90" fill="#444"/>
-              <ellipse cx="30" cy="115" rx="7" ry="10" fill="orange" opacity="0.7"/>
-            </g>
-          </svg>
-        </div>
+        <!-- SVG-ракета для мобильных -->
+          <div id="rocket-mobile" style="display: none; width: 120px; height: 120px; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index:2;">
+            <svg viewBox="0 0 60 120" width="100%" height="100%">
+              <g id="mobile-rocket-group">
+                <!-- Тело ракеты -->
+                <path d="M30 5 C35 20, 35 100, 30 115 C25 100, 25 20, 30 5" fill="#ccc" stroke="#888" stroke-width="2"/>
+
+                <!-- Иллюминатор -->
+                <circle cx="30" cy="45" r="6" fill="#00bfff" stroke="#0077aa" stroke-width="2"/>
+
+                <!-- Левое крыло -->
+                <path d="M25 80 L5 100 L25 90 Z" fill="#444"/>
+
+                <!-- Правое крыло -->
+                <path d="M35 80 L55 100 L35 90 Z" fill="#444"/>
+
+                <!-- Пламя -->
+                <path d="M30 115 C27 120, 33 120, 30 115" fill="orange" opacity="0.8"/>
+                <path d="M30 115 C26 123, 34 123, 30 115" fill="red" opacity="0.6"/>
+              </g>
+            </svg>
+          </div>
 
       </div>
     </div>
@@ -896,25 +905,13 @@
   function animateMobileRocket() {
   const group = document.getElementById('mobile-rocket-group');
   let t = 0;
-
   function anim() {
     t += 0.05;
-
-    // Колебание по вертикали (вверх-вниз)
-    const translateY = Math.sin(t) * 4;
-
-    // Легкое покачивание вокруг центра (наклон, создающий ощущение объёма)
-    const rotateZ = Math.sin(t * 1.5) * 5; // ±5 градусов
-
-    // Анимация применяется как 1 строка трансформаций
-    group.setAttribute(
-      'transform',
-      `translate(0 ${translateY}) rotate(${rotateZ} 30 60)`
-    );
-
+    const bobbing = Math.sin(t) * 4;
+    const tilting = Math.sin(t * 1.5) * 5;
+    group.setAttribute('transform', `translate(0 ${bobbing}) rotate(${tilting} 30 60)`);
     requestAnimationFrame(anim);
   }
-
   anim();
 }
 
